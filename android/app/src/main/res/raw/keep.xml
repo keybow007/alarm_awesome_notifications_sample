@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--https://pub.dev/packages/flutter_local_notifications/versions/10.0.0-dev.19#release-build-configuration -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/*" />

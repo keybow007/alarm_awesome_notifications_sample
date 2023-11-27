@@ -36,7 +36,7 @@ class ViewModel extends ChangeNotifier {
 
     if (isEnabled) {
       //awesome_notificationsの有効化：setAlarm
-      setAlarm(alarmData: alarm, isNeedDbInsert: false);
+      await setAlarm(alarmData: alarm, isNeedDbInsert: false);
     } else {
       //awesome_notificationsの無効化：cancelAlarm
       await cancelAlarm(alarm: alarm, isDelete: false);

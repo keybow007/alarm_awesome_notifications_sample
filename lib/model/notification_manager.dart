@@ -20,8 +20,8 @@ class NotificationManager {
   //通知を開いたことを検知
   StreamSubscription<ReceivedAction>? actionStreamSubscription;
 
-
-  NotificationManager({required this.sharedPrefsManager, required this.localDbManager}) {
+  NotificationManager(
+      {required this.sharedPrefsManager, required this.localDbManager}) {
     init();
   }
 
@@ -54,6 +54,12 @@ class NotificationManager {
         AwesomeNotifications().requestPermissionToSendNotifications();
       }
     });
+
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: onActionReceivedMethod,
+      onNotificationDisplayedMethod: onNotificationDisplayedMethod,
+      onNotificationCreatedMethod: onNotificationCreatedMethod
+    );
   }
 
   void dispose() {
@@ -66,24 +72,27 @@ class NotificationManager {
   //（ここで登録された通知の取得処理をやらないとパッケージがウラでやっているSharedPreferencesへの登録処理を追い越ししまう）
   static Future<void> onNotificationCreatedMethod(
       ReceivedNotification receivedNotification) async {
+    print("[通知]onNotificationCreatedMethod: $receivedNotification");
     //getAlarmList();
   }
 
-  //通知が表示された際のコールバック（旧displayedStream）
+  //表示された通知を押してアプリが起動した際に呼ばれるコールバックみたい（≠通知が表示されたタイミングではない模様：旧displayedStream）
   /// Use this method to detect every time that a new notification is displayed
   static Future<void> onNotificationDisplayedMethod(
       ReceivedNotification receivedNotification) async {
-    print("通知表示後の処理");
+    print("[通知]onNotificationDisplayedMethod: $receivedNotification");
   }
 
   //通知を開いた際のコールバック（actionStream）
   /// Use this method to detect when the user taps on a notification or action button
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
+    print("[通知]onActionReceivedMethod: $receivedAction");
     // Your code goes here
   }
 
-  Future<void> setAlarm({required Alarm alarmData, required bool isNeedDbInsert}) async {
+  Future<void> setAlarm(
+      {required Alarm alarmData, required bool isNeedDbInsert}) async {
     /*
     * TODO AlarmDataからの変換要 => 複数日設定する場合は同じグループ・別ID
     *  AlarmMode.ONCEの場合は、通知設定１回でOK
@@ -116,7 +125,6 @@ class NotificationManager {
 
     //AlarmDataのDriftへの登録（トグル切り替えのみの場合は不要 <= DBにすでに登録されているから）
     if (isNeedDbInsert) await insertAlarmToLocalDb(alarmData);
-
   }
 
   Future<void> createNotification(
@@ -171,8 +179,6 @@ class NotificationManager {
         allowWhileIdle: false,
       ),
     );
-
-
   }
 
   //  コールバックメソッドがstaticなので、そこから呼び出すメソッドもstaticでないといけない
@@ -180,7 +186,8 @@ class NotificationManager {
   //static Future<void> getAlarmList() async {
   Future<List<Alarm>> getAlarms() async {
     //awesome_notificationsに保存されているか確認するため
-    final scheduledNotifications = await AwesomeNotifications().listScheduledNotifications();
+    final scheduledNotifications =
+        await AwesomeNotifications().listScheduledNotifications();
     return await localDbManager.allAlarms;
 
     // alarms = [];
@@ -219,7 +226,7 @@ class NotificationManager {
   // }
 
   Future<void> cancelAlarm(String groupKey) async {
-    await AwesomeNotifications().cancelNotificationsByGroupKey(groupKey);
+    await AwesomeNotifications().cancelSchedulesByGroupKey(groupKey);
   }
 
   Future<void> deleteAlarm(String groupKey) async {

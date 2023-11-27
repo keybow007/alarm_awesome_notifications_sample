@@ -1,4 +1,4 @@
-package net.minpro.alarm_local_notifications_sample
+package net.minpro.alarm_awesome_notifications_sample
 
 import io.flutter.embedding.android.FlutterActivity
 

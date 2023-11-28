@@ -37,14 +37,14 @@ dependencies:
 
   provider: ^6.0.3
   #flutter_local_notifications: ^10.0.0-dev.19
-  awesome_notifications: ^0.7.4+1
+  awesome_notifications: ^0.8.2
   shared_preferences: ^2.0.13
 
   auto_size_text: ^3.0.0
 
   flip_board: ^0.6.1
 
-  intl: ^0.17.0
+  intl: ^0.18.0
 
   uuid: ^3.0.6
 

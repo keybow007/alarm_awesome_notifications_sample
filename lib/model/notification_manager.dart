@@ -70,6 +70,7 @@ class NotificationManager {
 
   ///通知が作成された際のコールバック（旧createdStream）
   //（ここで登録された通知の取得処理をやらないとパッケージがウラでやっているSharedPreferencesへの登録処理を追い越ししまう）
+  @pragma("vm:entry-point")
   static Future<void> onNotificationCreatedMethod(
       ReceivedNotification receivedNotification) async {
     print("[通知]onNotificationCreatedMethod: $receivedNotification");
@@ -78,6 +79,7 @@ class NotificationManager {
 
   //表示された通知を押してアプリが起動した際に呼ばれるコールバックみたい（≠通知が表示されたタイミングではない模様：旧displayedStream）
   /// Use this method to detect every time that a new notification is displayed
+  @pragma("vm:entry-point")
   static Future<void> onNotificationDisplayedMethod(
       ReceivedNotification receivedNotification) async {
     print("[通知]onNotificationDisplayedMethod: $receivedNotification");
@@ -85,6 +87,7 @@ class NotificationManager {
 
   //通知を開いた際のコールバック（actionStream）
   /// Use this method to detect when the user taps on a notification or action button
+  @pragma("vm:entry-point")
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
     print("[通知]onActionReceivedMethod: $receivedAction");

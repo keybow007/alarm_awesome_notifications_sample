@@ -1,4 +1,5 @@
 import UIKit
+import awesome_notifications
 import Flutter
 
 @UIApplicationMain
@@ -7,12 +8,19 @@ import Flutter
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-       // flutter_local_notification
-       //https://pub.dev/packages/flutter_local_notifications/versions/10.0.0-dev.19#general-setup
-       if #available(iOS 10.0, *) {
-             UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
-       }
-    GeneratedPluginRegistrant.register(with: self)
+       
+      if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
+      }
+      GeneratedPluginRegistrant.register(with: self)
+      //Extra iOS Setup for Background Actions
+      //https://pub.dev/packages/awesome_notifications#-extra-ios-setup-for-background-actions
+     //https://stackoverflow.com/a/75033554/7300575
+      // This function registers the desired plugins to be used within a notification background action
+    SwiftAwesomeNotificationsPlugin.setPluginRegistrantCallback { registry in
+              SwiftAwesomeNotificationsPlugin.register(
+                with: registry.registrar(forPlugin: "io.flutter.plugins.awesomenotifications.AwesomeNotificationsPlugin")!)
+          }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

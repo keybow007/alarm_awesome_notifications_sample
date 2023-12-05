@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alarm_local_notifications_sample/data/alarm_data.dart';
+import 'package:alarm_local_notifications_sample/main.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +26,11 @@ class NotificationManager {
     init();
   }
 
-  void init() async {
+  static ReceivedAction? initialAction;
+  static String channelKey = "alarm";
+
+  static Future<void> init() async {
+    print("NotificationManager#init");
     //https://pub.dev/packages/awesome_notifications#how-to-show-local-notifications
     //通知チャンネルの設定
     //Initialize the plugin on main.dart, with at least one native icon and one channel
@@ -34,7 +39,7 @@ class NotificationManager {
       [
         NotificationChannel(
           //Android8以降通知のチャンネル必要。
-          channelKey: NOTIFICATION_CHANNEL_KEY,
+          channelKey: channelKey,
           channelName: "Alarm Notification",
           channelDescription: "目覚まし",
           defaultColor: Colors.blueAccent,
@@ -44,6 +49,10 @@ class NotificationManager {
       ],
     );
 
+    // Get initial notification action is optional
+    await getNotificationAction();
+    print("[initialAction]$initialAction");
+
     //通知の許可が無い場合はユーザーに許可を依頼
     //Request the user authorization to send local and push notifications
     // (Remember to show a dialog alert to the user before call this request)
@@ -51,6 +60,8 @@ class NotificationManager {
       if (!isAllowed) {
         // Insert here your friendly dialog box before call the request method
         // This is very important to not harm the user experience
+        // For Android 14 or greater, the SCHEDULE_EXACT_ALARM permission is denied by default,
+        // and you must request it from the users using requestPermissionToSendNotifications.
         AwesomeNotifications().requestPermissionToSendNotifications();
       }
     });
@@ -60,6 +71,11 @@ class NotificationManager {
       onNotificationDisplayedMethod: onNotificationDisplayedMethod,
       onNotificationCreatedMethod: onNotificationCreatedMethod
     );
+  }
+
+  static Future<void> getNotificationAction() async {
+    initialAction = await AwesomeNotifications()
+        .getInitialNotificationAction(removeFromActionEvents: false);
   }
 
   void dispose() {
@@ -91,6 +107,11 @@ class NotificationManager {
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
     print("[通知]onActionReceivedMethod: $receivedAction");
+    // Navigate into pages, avoiding to open the notification details page over another details page already opened
+    // Navigate into pages, avoiding to open the notification details page over another details page already opened
+    MyApp.navigatorKey.currentState?.pushNamedAndRemoveUntil('/second-screen',
+            (route) => (route.settings.name != '/second-screen') || route.isFirst,
+        arguments: receivedAction);
     // Your code goes here
   }
 
@@ -148,7 +169,7 @@ class NotificationManager {
         id: nextId,
         groupKey: alarm.groupKey,
         body: DateFormat("H:mm").format(alarm.time),
-        channelKey: NOTIFICATION_CHANNEL_KEY,
+        channelKey: channelKey,
         title: '[Alarmサンプル] アラーム時刻です',
         //bigPicture or largeIcon is required
         icon: 'resource://drawable/app_icon',

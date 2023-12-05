@@ -37,7 +37,9 @@ dependencies:
 
   provider: ^6.0.3
   #flutter_local_notifications: ^10.0.0-dev.19
-  awesome_notifications: ^0.8.2
+  awesome_notifications_core: ^0.8.1
+  awesome_notifications: any
+
   shared_preferences: ^2.0.13
 
   auto_size_text: ^3.0.0
@@ -48,10 +50,10 @@ dependencies:
 
   uuid: ^3.0.6
 
-  drift: ^2.0.1
-  sqlite3_flutter_libs: "0.5.0"
-  path_provider: any
-  path: ^1.8.1
+  drift: ^2.14.0
+  sqlite3_flutter_libs: ^0.5.18
+  path_provider: ^2.0.0
+  path: ^1.8.3
 
   build_config: ^1.1.0
 
@@ -66,8 +68,8 @@ dev_dependencies:
   # rules and activating additional ones.
   #flutter_lints: ^2.0.0
 
-  drift_dev: ^2.0.0
-  build_runner: ^2.2.0
+  drift_dev: ^2.14.0
+  build_runner: ^2.4.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

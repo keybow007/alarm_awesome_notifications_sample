@@ -1,0 +1,14 @@
+import 'package:flutter/material.dart';
+
+class SecondScreen extends StatelessWidget {
+  const SecondScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text("通知受信後に開くページ"),
+      ),
+    );
+  }
+}

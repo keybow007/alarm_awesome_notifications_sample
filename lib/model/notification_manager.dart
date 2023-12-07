@@ -45,6 +45,7 @@ class NotificationManager {
           defaultColor: Colors.blueAccent,
           defaultRingtoneType: DefaultRingtoneType.Alarm,
           importance: NotificationImportance.High,
+          criticalAlerts: true,
         ),
       ],
     );
@@ -167,6 +168,7 @@ class NotificationManager {
         //idを変えれば複数のアラームが設定できる！ => 一時的にキャンセル
         //id：アラーム１つごと、groupKey:複数のアラームをまとめることができる
         id: nextId,
+        criticalAlert: true,
         groupKey: alarm.groupKey,
         body: DateFormat("H:mm").format(alarm.time),
         channelKey: channelKey,
@@ -179,7 +181,8 @@ class NotificationManager {
         wakeUpScreen: true,
         //autoDismissible: false,
         //これがないとAndroidでは通知がステータスバーに表示されないみたい
-        category: NotificationCategory.Reminder,
+        category: NotificationCategory.Reminder
+        //category: NotificationCategory.Reminder,
         // category: NotificationCategory.Alarm, //Alarmで通知が何度も鳴る
       ),
 

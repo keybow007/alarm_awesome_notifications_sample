@@ -41,7 +41,7 @@ class Alarms extends Table {
   BoolColumn get isSundayEnabled => boolean()();
 
   @override
-  Set<Column<Object>>? get primaryKey => {groupKey};
+  Set<Column<dynamic>>? get primaryKey => {groupKey};
 
 }
 

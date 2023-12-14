@@ -8,6 +8,21 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+/*
+* TODO awesome_notifications0.8.xとdrift2.xは相性が悪いみたい
+*  => こういう解決不能なエラーが出る
+*     https://github.com/flutter/flutter/issues/72354
+*  => Driftを2.xから1.xにダウングレードするとイケた（1.7.1でOK）
+*  （手順）
+*   １．driftとdrift_devを1.7.1にダウングレード
+*   ２．build.yamlファイルを削除
+*   ３．database.g.dartを削除して再作成
+*      Terminalから「flutter packages pub run build_runner build --delete-conflicting-outputs」
+*   ４．awesome_notificationsの公式Docで行っているAppDelegate.swiftの追加記述は不要（あれば削除）
+*      https://pub.dev/packages/awesome_notifications#-extra-ios-setup-for-background-actions
+*
+* */
+
 void main() async {
 
   runApp(

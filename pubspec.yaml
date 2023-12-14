@@ -49,8 +49,13 @@ dependencies:
 
   uuid: ^3.0.6
 
-  drift: "2.13.1"
-  sqlite3_flutter_libs: "0.5.0"
+  #TODO iOSでredifinitionエラーの原因がDriftのバージョンかもしれない（うまくいった褒め日記に準じる）
+  #2.xから1.xに下げた場合build.yamlファイルを削除する必要あり
+  #https://github.com/simolus3/drift/issues/2036
+  #drift: ^2.14.0
+  drift: ^1.0.1
+
+  sqlite3_flutter_libs: ^0.5.0
   path_provider: ^2.0.0
   path: ^1.8.3
 
@@ -67,14 +72,15 @@ dev_dependencies:
   # rules and activating additional ones.
   #flutter_lints: ^2.0.0
 
-  drift_dev: "2.13.2"
+  #TODO iOSでredifinitionエラーの原因がDriftのバージョンかもしれない（うまくいった褒め日記に準じる）
+  #drift_dev: ^2.14.0
+  drift_dev: ^1.0.2
+
   build_runner: ^2.4.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
-dependency_overrides:
-  sqlite3: "2.1.0"
 
 # The following section is specific to Flutter packages.
 flutter:

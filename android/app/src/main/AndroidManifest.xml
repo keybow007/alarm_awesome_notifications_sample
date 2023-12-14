@@ -9,7 +9,10 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <uses-permission android:minSdkVersion="34" android:name="android.permission.USE_EXACT_ALARM" />
+    <!--Android14以降はこれがないとアラームが遅延してしまう
+        https://developer.android.com/about/versions/14/changes/schedule-exact-alarms?hl=ja#calendar-alarm-clock
+        https://github.com/transistorsoft/flutter_background_fetch/blob/master/help/INSTALL-ANDROID.md#precise-event-scheduling-with-forcealarmmanager-true-->
+    <uses-permission android:minSdkVersion="33" android:name="android.permission.USE_EXACT_ALARM" />
 
     <application
         android:label="アラームサンプル"

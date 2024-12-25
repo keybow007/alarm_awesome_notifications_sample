@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -35,29 +35,25 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  provider: ^6.0.3
+  provider: ^6.1.1
   #flutter_local_notifications: ^10.0.0-dev.19
-  awesome_notifications: ^0.8.2
+  awesome_notifications: ^0.9.3+1
 
   shared_preferences: ^2.0.13
 
   auto_size_text: ^3.0.0
 
-  flip_board: ^0.6.1
+  flip_board: ^1.0.0
 
-  intl: ^0.18.0
+  intl: any
 
   uuid: ^3.0.6
 
   #TODO iOSでredifinitionエラーの原因がDriftのバージョンかもしれない（うまくいった褒め日記に準じる）
   #2.xから1.xに下げた場合build.yamlファイルを削除する必要あり
   #https://github.com/simolus3/drift/issues/2036
-  #drift: ^2.14.0
-  drift: ^1.0.1
-
-  sqlite3_flutter_libs: ^0.5.0
-  path_provider: ^2.0.0
-  path: ^1.8.3
+  drift: ^2.20.0
+  drift_flutter: ^0.1.0
 
   build_config: ^1.1.0
 
@@ -74,9 +70,8 @@ dev_dependencies:
 
   #TODO iOSでredifinitionエラーの原因がDriftのバージョンかもしれない（うまくいった褒め日記に準じる）
   #drift_dev: ^2.14.0
-  drift_dev: ^1.0.2
-
-  build_runner: ^2.4.6
+  drift_dev: ^2.20.0
+  build_runner: ^2.4.12
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

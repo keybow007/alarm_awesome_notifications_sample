@@ -48,10 +48,10 @@ class SquareButton extends StatelessWidget {
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.all(padding),
-                onPrimary: fontColor ??
+                backgroundColor: fontColor ??
                     Colors.white
                         .withOpacity((color == Colors.transparent) ? 0.5 : 1),
-                primary: color,
+                foregroundColor: color,
                 elevation: 0.0),
             child: (icon != null)
                 ? Icon(icon)

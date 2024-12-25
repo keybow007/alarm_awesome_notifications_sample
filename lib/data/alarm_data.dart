@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
+import 'package:drift_flutter/drift_flutter.dart';
 
 part 'alarm_data.g.dart';
 
-enum AlarmMode {ONCE, EVERY}  //１回のみ（この場合は曜日は押せない）・毎週（曜日が押せる）
+enum AlarmMode { ONCE, EVERY } //１回のみ（この場合は曜日は押せない）・毎週（曜日が押せる）
 
 /*
 * AlarmDataをDBに格納する必要がある（Alarmを設定しているけど一時的に無効化している場合は
@@ -33,16 +29,21 @@ class Alarms extends Table {
   //SQLiteはListが格納できないので曜日ごとにフィールドをもたせる必要あり
   //https://drift.simonbinder.eu/docs/getting-started/advanced_dart_tables/#supported-column-types
   BoolColumn get isMondayEnabled => boolean()();
+
   BoolColumn get isTuesdayEnabled => boolean()();
+
   BoolColumn get isWednesdayEnabled => boolean()();
+
   BoolColumn get isThursdayEnabled => boolean()();
+
   BoolColumn get isFridayEnabled => boolean()();
+
   BoolColumn get isSaturdayEnabled => boolean()();
+
   BoolColumn get isSundayEnabled => boolean()();
 
   @override
-  Set<Column<dynamic>>? get primaryKey => {groupKey};
-
+  Set<Column> get primaryKey => {groupKey};
 }
 
 @DriftDatabase(tables: [Alarms])
@@ -50,40 +51,21 @@ class MyDatabase extends _$MyDatabase {
   // we tell the database where to store the data with this constructor
   MyDatabase() : super(_openConnection());
 
+  static QueryExecutor _openConnection() {
+    // `driftDatabase` from `package:drift_flutter` stores the database in
+    // `getApplicationDocumentsDirectory()`.
+    return driftDatabase(name: 'alarm');
+  }
+
   @override
   int get schemaVersion => 1;
 
   Future<void> insertAlarm(Alarm alarm) => into(alarms).insert(alarm);
 
-  Future<List<Alarm>> get allAlarms => select(alarms).get();
+  Future<List<Alarm>> get allAlarms => managers.alarms.get();
 
-  Future<void> deleteAlarm(String groupKey) {
-    return (delete(alarms)..where((tbl) => tbl.groupKey.equals(groupKey))).go();
-  }
+  Future<void> deleteAlarm(String groupKey) =>
+      managers.alarms.filter((f) => f.groupKey(groupKey)).delete();
 
-  Future<void> updateAlarm(Alarm alarm) => update(alarms).replace(alarm);
-
+  Future<void> updateAlarm(Alarm alarm) => managers.alarms.replace(alarm);
 }
-
-LazyDatabase _openConnection() {
-  // the LazyDatabase util lets us find the right location for the file async.
-  return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder
-    // for your app.
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db.sqlite'));
-    return NativeDatabase(file);
-  });
-}
-
-//
-// class AlarmData {
-//   String groupKey;
-//   DateTime time;
-//   //このGroupKeyのアラームを有効にするか
-//   bool isEnabled;
-//   AlarmMode mode;
-//   List<int>? weekDays;
-//
-//
-// }
